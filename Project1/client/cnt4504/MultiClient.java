@@ -1,20 +1,28 @@
 package cnt4504;
 import java.net.*;
-import java.util.Scanner;
+import java.util.*;
 import java.io.*;
 
 public class MultiClient {
 	public static void main(String args[]) {
-		if (args.length < 2) return;
+		if (args.length < 2) {
+			System.out.println("USAGE: java MultiClient.java <host name> <port number>");
+			return;
+		}
 		 
         String hostname = args[0];
         int port = Integer.parseInt(args[1]);
  
         try (Socket socket = new Socket(hostname, port)) {
  
-            // InputStream input = socket.getInputStream();
-            // BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-            
+        	InputStream input = socket.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+ 
+//            String time = reader.readLine();
+//            System.out.println(time);
+
+            OutputStream output = socket.getOutputStream();
+	        PrintWriter writer = new PrintWriter(output, true);
             Scanner inputNum = new Scanner(System.in);
  
             int choice = 0;
@@ -28,13 +36,18 @@ public class MultiClient {
 		    			+ "(7) Quit\n");
 		    	
 		    	choice = inputNum.nextInt();
+		    	writer.println(choice);
 		    	
 		    	switch(choice) {
 		    		case 1:
 		    			// Do something for server date and time
+		    			String date = reader.readLine();
+		    			System.out.println(date + "\n");
 		    			break;
 		    		case 2:
-		    			// Do something for server date and time
+		    			// Do something for server uptime
+		    			String uptime = reader.readLine();
+		    			System.out.println(uptime + "\n");
 		    			break;
 		    		case 3:
 		    			// Do something for memory use
