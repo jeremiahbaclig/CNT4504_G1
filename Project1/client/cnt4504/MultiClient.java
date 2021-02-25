@@ -71,21 +71,39 @@ moving the vital processes of the function to an object (the stuff directly belo
  		    			System.out.println(date + "\n");
  		    			break;
  		    		case 2:
- 		    			// Do something for server uptime
+ 		    			// Do something for server uptime --> based on test output from feb 1 recording, looks like we need more?
  		    			String uptime = reader.readLine();
  		    			System.out.println(uptime + "\n");
  		    			break;
  		    		case 3:
  		    			// Do something for memory use
+					String max = reader.readLine();
+		    			String free = reader.readLine();
+		    			String available = reader.readLine();
+		    			System.out.println(max + "\n");
+		    			System.out.println(free + "\n");
+		    			System.out.println(available + "\n");
  		    			break;
  		    		case 4:
- 		    			// Do something for netstat
+ 		    			// Do something for netstat --> not sure why this while loop isn't breaking
+					String netstat = reader.readLine();
+		    			while (netstat != null) {
+		    				System.out.print(netstat + "\n");
+		    				netstat = reader.readLine();
+		    			}
  		    			break;
  		    		case 5:
  		    			// Do something for current users
+					String users = reader.readLine();
+		    			System.out.println(users + "\n");
  		    			break;
  		    		case 6:
- 		    			// Do something for running processes
+ 		    			// Do something for running processes --> this one prints blank to client (on server prints just fine)
+					String running = reader.readLine();
+		    			while (running != null) {
+		    				System.out.print(running + "\n");
+		    				netstat = reader.readLine();
+		    			}
  		    			break;
  		    		case 7:
  		    			// Quit client thread
