@@ -300,6 +300,7 @@ class Multithread extends Thread
   			String uptime = reader.readLine();
   			System.out.println(uptime + "\n");
   			endtime = System.nanoTime();
+			this.ThreadRuntime=endtime-starttime;
   			System.out.println("Turn-around Time: " + this.ThreadRuntime + "ns");
   			ThreadGenerator.TotalRuntime+=this.ThreadRuntime;
   			Thread.sleep(1000);
@@ -313,6 +314,7 @@ class Multithread extends Thread
  			System.out.println(free + "\n");
  			System.out.println(available + "\n");
  			endtime = System.nanoTime();
+			this.ThreadRuntime=endtime-starttime;
  			System.out.println("Turn-around Time: " + this.ThreadRuntime + "ns");
  			ThreadGenerator.TotalRuntime+=this.ThreadRuntime;
  			Thread.sleep(1000);
@@ -327,6 +329,7 @@ class Multithread extends Thread
  				counter++;
  			}
  			endtime = System.nanoTime();
+			this.ThreadRuntime=endtime-starttime;
  			System.out.println("Turn-around Time: " + this.ThreadRuntime + "ns");
  			ThreadGenerator.TotalRuntime+=this.ThreadRuntime;
  			Thread.sleep(1000);
@@ -336,6 +339,7 @@ class Multithread extends Thread
 			String users = reader.readLine();
  			System.out.println(users + "\n");
  			endtime = System.nanoTime();
+			this.ThreadRuntime=endtime-starttime;
  			System.out.println("Turn-around Time: " + this.ThreadRuntime + "ns");
  			ThreadGenerator.TotalRuntime+=this.ThreadRuntime;
  			
@@ -351,6 +355,7 @@ class Multithread extends Thread
  				count++;
  			}
  			endtime = System.nanoTime();
+			this.ThreadRuntime=endtime-starttime;
  			System.out.println("Turn-around Time: " + this.ThreadRuntime + "ns");
  			ThreadGenerator.TotalRuntime+=this.ThreadRuntime;
  			Thread.sleep(1000);
