@@ -1,5 +1,4 @@
 package cnt4504;
-
 import java.io.*;
 import java.net.*;
 import java.util.*;
@@ -34,74 +33,70 @@ public class SingleServer {
 		        int choice = 0;
 		        do {
 			        choice = reader.read();
-			        System.out.println("switch: " + choice);
 		        	switch(choice) {
-		        	
-		    		case 49: // print server date and time (1)
-		    			writer.println(new Date().toString());
-		    			break;
-		    		case 50: // print server up time (2)
-		    			RuntimeMXBean rb = ManagementFactory.getRuntimeMXBean();
-		    			writer.println("Uptime in ms: " + rb.getUptime());
-		    			break;
-		    		case 51: // Do something for memory use (3)
-		    			Runtime.getRuntime().gc(); // garbage collection
-		    			long maxMem = Runtime.getRuntime().maxMemory() / 1024;
-		    			long freeMem = Runtime.getRuntime().freeMemory() / 1024;
-		    			long availableMem = maxMem - freeMem;
-		    			
-		    			writer.println("Max Memory(KB): " + maxMem);
-		    			writer.println("Free Memory(KB): " + freeMem);
-		    			writer.println("Available Memory(KB): " + availableMem);	
-		    			break;
-		    		case 52: // Do something for netstat (4)
-		    			BufferedReader bufferedReader = new BufferedReader(
-		    		              new InputStreamReader(Runtime.getRuntime().exec("netstat -a").getInputStream()));
-		    			String line;
-		    			StringBuilder log = new StringBuilder();
-
-		    			long startTime = System.currentTimeMillis()/1000;
-		    		    while ((line = bufferedReader.readLine()) != null && (System.currentTimeMillis()/1000)-startTime < 1) {
-		    		    	System.out.println(line);
-		    		    	log.append(line + "\n");
-		    		    	
-		    		    }
-		    		    writer.println(log.toString());
-		    		    
-		    			break;
-		    		case 53: // Do something for current users (5)
-		    			BufferedReader userReader = new BufferedReader(
-		    		              new InputStreamReader(Runtime.getRuntime().exec("whoami").getInputStream())); 
-		    			String users;
-		    			StringBuilder logUsers = new StringBuilder();
-
-		    		    while ((users = userReader.readLine()) != null) {
-		    		    	logUsers.append(users + "\n");
-		    		    	
-		    		    }
-		    		    writer.println(logUsers.toString());
-		    			break;
-		    		case 54: // Do something for running processes (6)
-		    			BufferedReader runningReader = new BufferedReader(
-		    		              new InputStreamReader(Runtime.getRuntime().exec("ps -e").getInputStream())); // "ps aux | grep java" or "lsof" too?
-		    			String running;
-		    			StringBuilder logRunning = new StringBuilder();
-
-		    		    
-		    			long startRunning = System.currentTimeMillis()/1000;
-		    		    while ((running = runningReader.readLine()) != null && (System.currentTimeMillis()/1000)-startRunning < 1) {
-		    		    	// System.out.println(running);
-		    		    	logRunning.append(running + "\n");
-		    		    	
-		    		    }
-		    		    writer.println(logRunning.toString());
-		    		    break;
-		    		case 55: // Quit client thread (7)
-		    			socket.close();
-		    			break;
-		    		default: // Do something for input error
-		    			// writer.println("ERROR: Enter a number 1-7.");
-		    			break;	
+			    		case 49: // print server date and time (1)
+			    			writer.println(new Date().toString());
+			    			break;
+			    		case 50: // print server up time (2)
+			    			RuntimeMXBean rb = ManagementFactory.getRuntimeMXBean();
+			    			writer.println("Uptime in ms: " + rb.getUptime());
+			    			break;
+			    		case 51: // Do something for memory use (3)
+			    			Runtime.getRuntime().gc(); // garbage collection
+			    			long maxMem = Runtime.getRuntime().maxMemory() / 1024;
+			    			long freeMem = Runtime.getRuntime().freeMemory() / 1024;
+			    			long availableMem = maxMem - freeMem;
+			    			
+			    			writer.println("Max Memory(KB): " + maxMem);
+			    			writer.println("Free Memory(KB): " + freeMem);
+			    			writer.println("Available Memory(KB): " + availableMem);	
+			    			break;
+			    		case 52: // Do something for netstat (4)
+			    			BufferedReader bufferedReader = new BufferedReader(
+			    		              new InputStreamReader(Runtime.getRuntime().exec("netstat -a").getInputStream()));
+			    			String line;
+			    			StringBuilder log = new StringBuilder();
+	
+			    			int counter = 0;
+			    		    while ((line = bufferedReader.readLine()) != null && counter < 20) {
+			    		    	System.out.println(line);
+			    		    	log.append(line + "\n");
+			    		    	counter++;
+			    		    }
+			    		    writer.println(log.toString());
+			    		    
+			    			break;
+			    		case 53: // Do something for current users (5)
+			    			BufferedReader userReader = new BufferedReader(
+			    		              new InputStreamReader(Runtime.getRuntime().exec("whoami").getInputStream())); 
+			    			String users;
+			    			StringBuilder logUsers = new StringBuilder();
+	
+			    		    while ((users = userReader.readLine()) != null) {
+			    		    	logUsers.append(users + "\n");
+			    		    	
+			    		    }
+			    		    writer.println(logUsers.toString());
+			    			break;
+			    		case 54: // Do something for running processes (6)
+			    			BufferedReader runningReader = new BufferedReader(
+			    		              new InputStreamReader(Runtime.getRuntime().exec("ps -aux").getInputStream())); // "ps aux | grep java" or "lsof" too?
+			    			String running;
+			    			StringBuilder logRunning = new StringBuilder();
+	
+			    			int count = 0;
+			    		    while ((running = runningReader.readLine()) != null && count < 20) {
+			    		    	logRunning.append(running + "\n");
+			    		    	count++;
+			    		    }
+			    		    writer.println(logRunning.toString());
+			    		    break;
+			    		case 55: // Quit client thread (7)
+			    			socket.close();
+			    			break;
+			    		default: // Do something for input error
+			    			// writer.println("ERROR: Enter a number 1-7.");
+			    			break;	
 		        	}
                 } while (choice != 7);
 	            

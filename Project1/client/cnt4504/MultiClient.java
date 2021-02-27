@@ -16,7 +16,7 @@ public class MultiClient {
  			return;
  		}
 //       Request the network address and port to which to connect
-         String hostname = "localhost"; // <---- temp name for a host Change it on your computer name
+         String hostname = "139.62.210.153"; // <---- temp name for a host Change it on your computer name
          int port = Integer.parseInt(args[0]);
 
          try {
@@ -53,15 +53,31 @@ public class MultiClient {
            			break;
            		case 3:
            			// Do something for memory use
+				System.out.println("How many clients generate? ");
+           			client = inputNum.nextInt();
+           			a.setNumbUsers(client);
+           			a.generateMemoryUse();
            			break;
            		case 4:
            			// Do something for netstat --> not sure why this while loop isn't breaking
+           			System.out.println("How many clients generate? ");
+           			client = inputNum.nextInt();
+           			a.setNumbUsers(client);
+           			a.generateNetStat();
            			break;
            		case 5:
            			// Do something for current users
+           			System.out.println("How many clients generate? ");
+           			client = inputNum.nextInt();
+           			a.setNumbUsers(client);
+           			a.generateCurrentUsers();
            			break;
            		case 6:
            			// Do something for running processes --> this one prints blank to client (on server prints just fine)
+           			System.out.println("How many clients generate? ");
+           			client = inputNum.nextInt();
+           			a.setNumbUsers(client);
+           			a.generateRunningProcesses();
            			break;
            		case 7:
            			// Quit client thread
@@ -73,27 +89,12 @@ public class MultiClient {
 
              }while(choice != 7);
              inputNum.close();
-            
-/*
-So, team. I am not 100% sure how to go about this part. We have to run this process for each thread. An idea I had was putting all the users in a table and 
-running through the 'choice' for all of the values in the table, but I think that that is not how you utilize multithreading. I think multithreading involves 
-moving the vital processes of the function to an object (the stuff directly below), then executing the 'choice' in the thread class, not main.
--B
-*/
-             
-/*
-As for turn around time for each thread... i've researched that ping is something that may help with this, but I have no idea how to go about
-implementing that. this one has me scratching my head a little right now. after we figure this out, the other data is just an extension of this
--B
-*/
 
          } catch (Exception ex) {
   
              System.out.println("Server not found: " + ex.getMessage());
   
          }
-         
-         
      }
 } 
 
@@ -254,63 +255,51 @@ class Multithread extends Thread
  { 
      try
      { 
-    /* 
-    Maybe we pass in the port & server name and do the whole setup of the client here?
-    This would make sense because this way we can do all the processes for each thread
-    while maintaining a group data bank, which is something that multithreading requires.
-    
-   If we were going to display this to many users I would think that we would put the print statements in here too,
-   but I think that we do not because the project description has us choosing the amount of threads at one time
-   and then (from the way im interpreting it) doing the same choice for all of them.
-   
-   Putting everything in here would allow us to track the time it takes for an indivual thread to run a process, which can 
-   be passed back to main and used in the data collection phase of the client program.
-   
-   -B
-    
-    */
-    	 // System.out.println(choice);
     	switch(choice) {
-  		case 1:
-  			// Do something for server date and time
+  		case 1: // Do something for server date and time
   			String date = reader.readLine();
   			System.out.println(date + "\n");
+  			Thread.sleep(1000);
   			break;
-  		case 2:
-  			// Do something for server uptime --> based on test output from feb 1 recording, looks like we need more?
+  		case 2: // Do something for server uptime
   			String uptime = reader.readLine();
   			System.out.println(uptime + "\n");
+  			Thread.sleep(1000);
   			break;
-  		case 3:
-  			// Do something for memory use
+  		case 3: // Do something for memory use
 			String max = reader.readLine();
  			String free = reader.readLine();
  			String available = reader.readLine();
  			System.out.println(max + "\n");
  			System.out.println(free + "\n");
  			System.out.println(available + "\n");
-  			break;
-  		case 4:
-  			// Do something for netstat --> not sure why this while loop isn't breaking
+ 			Thread.sleep(1000);
+ 			break;
+  		case 4: // Do something for netstat
 			String netstat = reader.readLine();
- 			while (netstat != null) {
+			int counter = 0;
+ 			while (netstat != null && counter < 20) {
  				System.out.print(netstat + "\n");
  				netstat = reader.readLine();
+ 				counter++;
  			}
-  			break;
-  		case 5:
-  			// Do something for current users
+ 			Thread.sleep(1000);
+ 			break;
+  		case 5: // Do something for current users
 			String users = reader.readLine();
  			System.out.println(users + "\n");
-  			break;
-  		case 6:
-  			// Do something for running processes --> this one prints blank to client (on server prints just fine)
+ 			Thread.sleep(1000);
+ 			break;
+  		case 6: // Do something for running processes
 			String running = reader.readLine();
- 			while (running != null) {
+			int count = 0;
+ 			while (running != null && count < 20) {
  				System.out.print(running + "\n");
- 				netstat = reader.readLine();
+ 				running = reader.readLine();
+ 				count++;
  			}
-  			break;
+ 			Thread.sleep(1000);
+ 			break;
   		case 7:
   			// Quit client thread
   			break;
@@ -318,9 +307,6 @@ class Multithread extends Thread
   			// Do something for input error
   			break;
     	 }
-
-    	 
-    	 //reader.close();
      } 
      catch (Exception e) 
      { 
