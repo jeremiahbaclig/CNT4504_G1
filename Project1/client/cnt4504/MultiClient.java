@@ -18,9 +18,7 @@ public class MultiClient {
 //       Request the network address and port to which to connect
          String hostname = "localhost"; // <---- temp name for a host Change it on your computer name
          int port = Integer.parseInt(args[0]);
-         
-         
-         
+
          try {
         	 ThreadGenerator a = new ThreadGenerator(hostname, port); // <---- create ThreadGenerator class 
              Scanner inputNum = new Scanner(System.in); // userInput stream
@@ -52,7 +50,6 @@ public class MultiClient {
            			client = inputNum.nextInt();
            			a.setNumbUsers(client);
            			a.generateUpTime();
-           			
            			break;
            		case 3:
            			// Do something for memory use
@@ -89,8 +86,6 @@ As for turn around time for each thread... i've researched that ping is somethin
 implementing that. this one has me scratching my head a little right now. after we figure this out, the other data is just an extension of this
 -B
 */
-		 
-		 
 
          } catch (Exception ex) {
   
@@ -138,14 +133,22 @@ class ThreadGenerator {
 		}
 	}
 	
+	private void initializeSocket() {
+		try {
+			 this.socket = connectToSocket(this.host, this.port);
+			 this.input = this.socket.getInputStream();
+			 this.reader = new BufferedReader(new InputStreamReader(this.input));
+			 this.output = this.socket.getOutputStream();
+			 this.writer = new PrintWriter(this.output, true);
+		} catch (Exception e) {
+			System.out.println("Socket error.");
+		}
+	}
+	
 	public void generateTime() {
 		try {
 			if(this.socket == null) {
-				 this.socket = connectToSocket(this.host, this.port);
-				 this.input = this.socket.getInputStream();
-				 this.reader = new BufferedReader(new InputStreamReader(this.input));
-				 this.output = this.socket.getOutputStream();
-				 this.writer = new PrintWriter(this.output, true);
+				initializeSocket();
 			}
             
             for(int i = 0; i < this.numbUsers; i++) {
@@ -153,65 +156,55 @@ class ThreadGenerator {
             	this.writer.println("1");
             	thread.run(1, this.reader);
             }
-            
- 			// reader.close();
+
 		}catch(Exception e) {
 			 System.out.println("Socket error: " + e.getMessage());
 		}
 	}
 	public void generateUpTime() {
 		try {
-			Socket socket = connectToSocket(this.host, this.port);
-			InputStream input = socket.getInputStream();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-			OutputStream output = socket.getOutputStream();
-            PrintWriter writer = new PrintWriter(output, true);
+			if(this.socket == null) {
+				initializeSocket();
+			}
             
             for(int i = 0; i < this.numbUsers; i++) {
             	Multithread thread = new Multithread();
-            	writer.println("2");
-            	thread.run(2, reader);
+            	this.writer.println("2");
+            	thread.run(2, this.reader);
             }
-            
- 			reader.close();
+
 		}catch(Exception e) {
 			 System.out.println("Socket error: " + e.getMessage());
 		}
 	}
 	public void generateMemoryUse() {
 		try {
-			Socket socket = connectToSocket(this.host, this.port);
-			InputStream input = socket.getInputStream();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-			OutputStream output = socket.getOutputStream();
-            PrintWriter writer = new PrintWriter(output, true);
+			if(this.socket == null) {
+				initializeSocket();
+			}
             
             for(int i = 0; i < this.numbUsers; i++) {
             	Multithread thread = new Multithread();
-            	writer.println("3");
-            	thread.run(3, reader);
+            	this.writer.println("3");
+            	thread.run(3, this.reader);
             }
-            
- 			reader.close();
+
 		}catch(Exception e) {
 			 System.out.println("Socket error: " + e.getMessage());
 		}
 	}
 	public void generateNetStat() {
 		try {
-			Socket socket = connectToSocket(this.host, this.port);
-			InputStream input = socket.getInputStream();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-			OutputStream output = socket.getOutputStream();
-            PrintWriter writer = new PrintWriter(output, true);
+			if(this.socket == null) {
+				initializeSocket();
+			}
             
             for(int i = 0; i < this.numbUsers; i++) {
             	Multithread thread = new Multithread();
-            	writer.println("4");
-            	thread.run(4, reader);
+            	this.writer.println("4");
+            	thread.run(4, this.reader);
             }
-            
- 			reader.close();
+
 		}catch(Exception e) {
 			 System.out.println("Socket error: " + e.getMessage());
 		}
@@ -219,19 +212,16 @@ class ThreadGenerator {
 	
 	public void generateCurrentUsers() {
 		try {
-			Socket socket = connectToSocket(this.host, this.port);
-			InputStream input = socket.getInputStream();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-			OutputStream output = socket.getOutputStream();
-            PrintWriter writer = new PrintWriter(output, true);
+			if(this.socket == null) {
+				initializeSocket();
+			}
             
             for(int i = 0; i < this.numbUsers; i++) {
             	Multithread thread = new Multithread();
-            	writer.println("5");
-            	thread.run(5, reader);
+            	this.writer.println("5");
+            	thread.run(5, this.reader);
             }
-            
- 			reader.close();
+
 		}catch(Exception e) {
 			 System.out.println("Socket error: " + e.getMessage());
 		}
@@ -239,18 +229,15 @@ class ThreadGenerator {
 	
 	public void generateRunningProcesses() {
 		try {
-			Socket socket = connectToSocket(this.host, this.port);
-			InputStream input = socket.getInputStream();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-			OutputStream output = socket.getOutputStream();
-            PrintWriter writer = new PrintWriter(output, true);
+			if(this.socket == null) {
+				initializeSocket();
+			}
             
             for(int i = 0; i < this.numbUsers; i++) {
             	Multithread thread = new Multithread();
-            	writer.println("6");
-            	thread.run(6, reader);
+            	this.writer.println("6");
+            	thread.run(6, this.reader);
             }
- 			reader.close();
 		}catch(Exception e) {
 			 System.out.println("Socket error: " + e.getMessage());
 		}
