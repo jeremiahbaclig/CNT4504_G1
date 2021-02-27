@@ -16,7 +16,7 @@ public class MultiClient {
  			return;
  		}
 //       Request the network address and port to which to connect
-         String hostname = "139.62.210.153"; // <---- temp name for a host Change it on your computer name
+         String hostname = "localhost"; // <---- temp name for a host Change it on your computer name
          int port = Integer.parseInt(args[0]);
 
          try {
@@ -39,42 +39,42 @@ public class MultiClient {
             	 
            		case 1:
            			// Do something for server date and time
-           			System.out.println("How many clients generate? ");
+           			System.out.println("How many clients do you want to generate? ");
            			client = inputNum.nextInt();
            			a.setNumbUsers(client); // set to the class ThreadGenerator numb of clients
            			a.generateTime(); // call generateTime method in ThreadGenerator class
            			break;
            		case 2:
            			// Do something for server uptime --> based on test output from feb 1 recording, looks like we need more?
-           			System.out.println("How many clients generate? ");
+           			System.out.println("How many clients do you want to generate? ");
            			client = inputNum.nextInt();
            			a.setNumbUsers(client);
            			a.generateUpTime();
            			break;
            		case 3:
            			// Do something for memory use
-				System.out.println("How many clients generate? ");
+				System.out.println("How many clients do you want to generate? ");
            			client = inputNum.nextInt();
            			a.setNumbUsers(client);
            			a.generateMemoryUse();
            			break;
            		case 4:
            			// Do something for netstat --> not sure why this while loop isn't breaking
-           			System.out.println("How many clients generate? ");
+           			System.out.println("How many clients do you want to generate? ");
            			client = inputNum.nextInt();
            			a.setNumbUsers(client);
            			a.generateNetStat();
            			break;
            		case 5:
            			// Do something for current users
-           			System.out.println("How many clients generate? ");
+           			System.out.println("How many clients do you want to generate? ");
            			client = inputNum.nextInt();
            			a.setNumbUsers(client);
            			a.generateCurrentUsers();
            			break;
            		case 6:
            			// Do something for running processes --> this one prints blank to client (on server prints just fine)
-           			System.out.println("How many clients generate? ");
+           			System.out.println("How many clients do you want to generate? ");
            			client = inputNum.nextInt();
            			a.setNumbUsers(client);
            			a.generateRunningProcesses();
@@ -89,6 +89,16 @@ public class MultiClient {
 
              }while(choice != 7);
              inputNum.close();
+             
+             
+             System.out.println("Total Turn-around Time:" + ThreadGenerator.TotalRuntime);
+             
+             System.out.println("Average Turn-around Time:" + ThreadGenerator.TotalRuntime/a.getNumbUsers());
+             
+             
+             
+             
+             
 
          } catch (Exception ex) {
   
@@ -112,10 +122,13 @@ class ThreadGenerator {
 	private BufferedReader reader = null;
 	private OutputStream output = null;
 	private PrintWriter writer = null;
+	public static double TotalRuntime;
+
 	
 	public ThreadGenerator (String host, int port) {
 		this.host = host;
 		this.port = port;
+		
 	}
 	
 	public void setNumbUsers(int i) {
@@ -141,21 +154,24 @@ class ThreadGenerator {
 			 this.reader = new BufferedReader(new InputStreamReader(this.input));
 			 this.output = this.socket.getOutputStream();
 			 this.writer = new PrintWriter(this.output, true);
+			 
 		} catch (Exception e) {
 			System.out.println("Socket error.");
 		}
 	}
 	
 	public void generateTime() {
+		
 		try {
 			if(this.socket == null) {
 				initializeSocket();
-			}
-            
+			}    
             for(int i = 0; i < this.numbUsers; i++) {
             	Multithread thread = new Multithread();
-            	this.writer.println("1");
+              	this.writer.println("1");
+            	
             	thread.run(1, this.reader);
+            	
             }
 
 		}catch(Exception e) {
@@ -179,12 +195,14 @@ class ThreadGenerator {
 		}
 	}
 	public void generateMemoryUse() {
+		
 		try {
 			if(this.socket == null) {
 				initializeSocket();
 			}
             
             for(int i = 0; i < this.numbUsers; i++) {
+            	
             	Multithread thread = new Multithread();
             	this.writer.println("3");
             	thread.run(3, this.reader);
@@ -251,53 +269,81 @@ class ThreadGenerator {
 
 class Multithread extends Thread 
 { 
+	double ThreadRuntime=0;
  public void run(int choice, BufferedReader reader)
  { 
+	 double starttime=0;
+	 double endtime=0;		
      try
      { 
     	switch(choice) {
   		case 1: // Do something for server date and time
+  			starttime = System.nanoTime();
   			String date = reader.readLine();
   			System.out.println(date + "\n");
+  			endtime = System.nanoTime();
+  			this.ThreadRuntime=endtime-starttime;
+  			System.out.println("Turn-around Time: " + this.ThreadRuntime);
+  			ThreadGenerator.TotalRuntime+=this.ThreadRuntime;
   			Thread.sleep(1000);
   			break;
   		case 2: // Do something for server uptime
+  			starttime = System.nanoTime();
   			String uptime = reader.readLine();
   			System.out.println(uptime + "\n");
+  			endtime = System.nanoTime();
+  			System.out.println("Turn-around Time: " + this.ThreadRuntime);
+  			ThreadGenerator.TotalRuntime+=this.ThreadRuntime;
   			Thread.sleep(1000);
   			break;
   		case 3: // Do something for memory use
-			String max = reader.readLine();
+  			starttime = System.nanoTime();
+  			String max = reader.readLine();
  			String free = reader.readLine();
  			String available = reader.readLine();
  			System.out.println(max + "\n");
  			System.out.println(free + "\n");
  			System.out.println(available + "\n");
+ 			endtime = System.nanoTime();
+ 			System.out.println("Turn-around Time: " + this.ThreadRuntime);
+ 			ThreadGenerator.TotalRuntime+=this.ThreadRuntime;
  			Thread.sleep(1000);
  			break;
   		case 4: // Do something for netstat
-			String netstat = reader.readLine();
+  			starttime = System.nanoTime();
+  			String netstat = reader.readLine();
 			int counter = 0;
  			while (netstat != null && counter < 20) {
  				System.out.print(netstat + "\n");
  				netstat = reader.readLine();
  				counter++;
  			}
+ 			endtime = System.nanoTime();
+ 			System.out.println("Turn-around Time: " + this.ThreadRuntime);
+ 			ThreadGenerator.TotalRuntime+=this.ThreadRuntime;
  			Thread.sleep(1000);
  			break;
   		case 5: // Do something for current users
+  			starttime = System.nanoTime();
 			String users = reader.readLine();
  			System.out.println(users + "\n");
+ 			endtime = System.nanoTime();
+ 			System.out.println("Turn-around Time: " + this.ThreadRuntime);
+ 			ThreadGenerator.TotalRuntime+=this.ThreadRuntime;
  			Thread.sleep(1000);
  			break;
   		case 6: // Do something for running processes
-			String running = reader.readLine();
+  			starttime = System.nanoTime();
+  			String running = reader.readLine();
 			int count = 0;
  			while (running != null && count < 20) {
  				System.out.print(running + "\n");
  				running = reader.readLine();
  				count++;
  			}
+ 			endtime = System.nanoTime();
+ 			System.out.println("Turn-around Time: " + this.ThreadRuntime);
+ 			ThreadGenerator.TotalRuntime+=this.ThreadRuntime;
  			Thread.sleep(1000);
  			break;
   		case 7:
@@ -313,4 +359,4 @@ class Multithread extends Thread
          System.out.println ("Exception: " +  e.getMessage()); 
      } 
  } 
-} 
+}
