@@ -34,10 +34,10 @@ public class SingleServer {
 		        int choice = 0;
 		        do {
 			        choice = reader.read();
-		        	
+			        System.out.println("switch: " + choice);
 		        	switch(choice) {
+		        	
 		    		case 49: // print server date and time (1)
-		    			System.out.println(choice);
 		    			writer.println(new Date().toString());
 		    			break;
 		    		case 50: // print server up time (2)
@@ -105,7 +105,7 @@ public class SingleServer {
 		        	}
                 } while (choice != 7);
 	            
-	            socket.close();
+	            // socket.close();
 	        }
 		 
 		} catch (SocketException ex) {
@@ -114,6 +114,8 @@ public class SingleServer {
 	    catch (IOException ex) {
 	        System.out.println("Server exception: " + ex.getMessage());
 	        ex.printStackTrace();
-	    } 
+	    } catch (Exception ex) {
+	    	System.out.println("ERROR: " + ex.getMessage());
+	    }
 	}
 }

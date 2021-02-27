@@ -16,7 +16,7 @@ public class MultiClient {
  			return;
  		}
 //       Request the network address and port to which to connect
-         String hostname = "DESKTOP-DCT3DBM"; // <---- temp name for a host Change it on your computer name
+         String hostname = "localhost"; // <---- temp name for a host Change it on your computer name
          int port = Integer.parseInt(args[0]);
          
          
@@ -111,7 +111,11 @@ class ThreadGenerator {
 	private int numbUsers = 0;
 	private String host;
 	private int port;
-	
+	private Socket socket = null;
+	private InputStream input = null;
+	private BufferedReader reader = null;
+	private OutputStream output = null;
+	private PrintWriter writer = null;
 	
 	public ThreadGenerator (String host, int port) {
 		this.host = host;
@@ -136,19 +140,21 @@ class ThreadGenerator {
 	
 	public void generateTime() {
 		try {
-			Socket socket = connectToSocket(this.host, this.port);
-			InputStream input = socket.getInputStream();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-			OutputStream output = socket.getOutputStream();
-            PrintWriter writer = new PrintWriter(output, true);
+			if(this.socket == null) {
+				 this.socket = connectToSocket(this.host, this.port);
+				 this.input = this.socket.getInputStream();
+				 this.reader = new BufferedReader(new InputStreamReader(this.input));
+				 this.output = this.socket.getOutputStream();
+				 this.writer = new PrintWriter(this.output, true);
+			}
             
             for(int i = 0; i < this.numbUsers; i++) {
             	Multithread thread = new Multithread();
-            	writer.println(1);
-            	thread.run(1, reader);
+            	this.writer.println("1");
+            	thread.run(1, this.reader);
             }
             
- 			reader.close();
+ 			// reader.close();
 		}catch(Exception e) {
 			 System.out.println("Socket error: " + e.getMessage());
 		}
@@ -163,7 +169,7 @@ class ThreadGenerator {
             
             for(int i = 0; i < this.numbUsers; i++) {
             	Multithread thread = new Multithread();
-            	writer.println(2);
+            	writer.println("2");
             	thread.run(2, reader);
             }
             
@@ -182,7 +188,7 @@ class ThreadGenerator {
             
             for(int i = 0; i < this.numbUsers; i++) {
             	Multithread thread = new Multithread();
-            	writer.println(3);
+            	writer.println("3");
             	thread.run(3, reader);
             }
             
@@ -201,7 +207,7 @@ class ThreadGenerator {
             
             for(int i = 0; i < this.numbUsers; i++) {
             	Multithread thread = new Multithread();
-            	writer.println(4);
+            	writer.println("4");
             	thread.run(4, reader);
             }
             
@@ -221,7 +227,7 @@ class ThreadGenerator {
             
             for(int i = 0; i < this.numbUsers; i++) {
             	Multithread thread = new Multithread();
-            	writer.println(5);
+            	writer.println("5");
             	thread.run(5, reader);
             }
             
@@ -241,7 +247,7 @@ class ThreadGenerator {
             
             for(int i = 0; i < this.numbUsers; i++) {
             	Multithread thread = new Multithread();
-            	writer.println(6);
+            	writer.println("6");
             	thread.run(6, reader);
             }
  			reader.close();
@@ -276,6 +282,7 @@ class Multithread extends Thread
    -B
     
     */
+    	 // System.out.println(choice);
     	switch(choice) {
   		case 1:
   			// Do something for server date and time
