@@ -80,7 +80,7 @@ public class SingleServer {
 			    			break;
 			    		case 54: // Do something for running processes (6)
 			    			BufferedReader runningReader = new BufferedReader(
-			    		              new InputStreamReader(Runtime.getRuntime().exec("ps -aux").getInputStream())); // "ps aux | grep java" or "lsof" too?
+			    		              new InputStreamReader(Runtime.getRuntime().exec("ps -aux").getInputStream()));
 			    			String running;
 			    			StringBuilder logRunning = new StringBuilder();
 	
@@ -95,12 +95,9 @@ public class SingleServer {
 			    			socket.close();
 			    			break;
 			    		default: // Do something for input error
-			    			// writer.println("ERROR: Enter a number 1-7.");
 			    			break;	
 		        	}
                 } while (choice != 7);
-	            
-	            // socket.close();
 	        }
 		 
 		} catch (SocketException ex) {
