@@ -5,10 +5,10 @@ import java.util.*;
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
 
-public class SingleServer {
+public class MultiServer {
 	public static void main(String args[]) {
 		if (args.length < 1) {
-			System.out.println("USAGE: java SingleServer.java <port number>");
+			System.out.println("USAGE: java MultiServer.java <port number>");
 			return;
 		}
 		

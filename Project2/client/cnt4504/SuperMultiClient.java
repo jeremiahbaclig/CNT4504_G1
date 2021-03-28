@@ -3,7 +3,7 @@ import java.net.*;
 import java.util.*;
 import java.io.*;
 
-public class MultiClient { 
+public class SuperMultiClient { 
  public static void main(String[] args) 
  { 
          if (args.length < 2) {
@@ -17,7 +17,7 @@ public class MultiClient {
          System.out.println(hostname);
 
          try {
-        	 ThreadGenerator a = new ThreadGenerator(hostname, port); // <---- create ThreadGenerator class 
+        	 ThreadGen a = new ThreadGen(hostname, port); // <---- create ThreadGen class 
              Scanner inputNum = new Scanner(System.in); // userInput stream
 
              int choice = 0; // numb for processes to do
@@ -37,56 +37,56 @@ public class MultiClient {
            		case 1: // Do something for server date and time
            			System.out.println("How many clients do you want to generate? ");
            			client = inputNum.nextInt();
-           			a.setNumbUsers(client); // set to the class ThreadGenerator numb of clients
-           			a.generateTime(); // call generateTime method in ThreadGenerator class
-           			System.out.println("Total Turn-around Time:" + ThreadGenerator.TotalRuntime);
-                    System.out.println("Average Turn-around Time:" + ThreadGenerator.TotalRuntime/a.getNumbUsers());
-                    ThreadGenerator.TotalRuntime=0;
+           			a.setNumbUsers(client); // set to the class ThreadGen numb of clients
+           			a.generateTime(); // call generateTime method in ThreadGen class
+           			System.out.println("Total Turn-around Time:" + ThreadGen.TotalRuntime);
+                    System.out.println("Average Turn-around Time:" + ThreadGen.TotalRuntime/a.getNumbUsers());
+                    ThreadGen.TotalRuntime=0;
            			break;
            		case 2: // Do something for server uptime
            			System.out.println("How many clients do you want to generate? ");
            			client = inputNum.nextInt();
            			a.setNumbUsers(client);
            			a.generateUpTime();
-           			System.out.println("Total Turn-around Time:" + ThreadGenerator.TotalRuntime);
-                    System.out.println("Average Turn-around Time:" + ThreadGenerator.TotalRuntime/a.getNumbUsers());
-                    ThreadGenerator.TotalRuntime=0;
+           			System.out.println("Total Turn-around Time:" + ThreadGen.TotalRuntime);
+                    System.out.println("Average Turn-around Time:" + ThreadGen.TotalRuntime/a.getNumbUsers());
+                    ThreadGen.TotalRuntime=0;
            			break;
            		case 3: // Do something for memory use
            			System.out.println("How many clients do you want to generate? ");
            			client = inputNum.nextInt();
            			a.setNumbUsers(client);
            			a.generateMemoryUse();
-           			System.out.println("Total Turn-around Time:" + ThreadGenerator.TotalRuntime);
-                    System.out.println("Average Turn-around Time:" + ThreadGenerator.TotalRuntime/a.getNumbUsers());
-                    ThreadGenerator.TotalRuntime=0;
+           			System.out.println("Total Turn-around Time:" + ThreadGen.TotalRuntime);
+                    System.out.println("Average Turn-around Time:" + ThreadGen.TotalRuntime/a.getNumbUsers());
+                    ThreadGen.TotalRuntime=0;
            			break;
            		case 4: // Do something for netstat --> not sure why this while loop isn't breaking
            			System.out.println("How many clients do you want to generate? ");
            			client = inputNum.nextInt();
            			a.setNumbUsers(client);
            			a.generateNetStat();
-           			System.out.println("Total Turn-around Time:" + ThreadGenerator.TotalRuntime);
-                    System.out.println("Average Turn-around Time:" + ThreadGenerator.TotalRuntime/a.getNumbUsers());
-                    ThreadGenerator.TotalRuntime=0;
+           			System.out.println("Total Turn-around Time:" + ThreadGen.TotalRuntime);
+                    System.out.println("Average Turn-around Time:" + ThreadGen.TotalRuntime/a.getNumbUsers());
+                    ThreadGen.TotalRuntime=0;
            			break;
            		case 5: // Do something for current users
            			System.out.println("How many clients do you want to generate? ");
            			client = inputNum.nextInt();
            			a.setNumbUsers(client);
            			a.generateCurrentUsers();
-           			System.out.println("Total Turn-around Time:" + ThreadGenerator.TotalRuntime);
-                    System.out.println("Average Turn-around Time:" + ThreadGenerator.TotalRuntime/a.getNumbUsers());
-                    ThreadGenerator.TotalRuntime=0;
+           			System.out.println("Total Turn-around Time:" + ThreadGen.TotalRuntime);
+                    System.out.println("Average Turn-around Time:" + ThreadGen.TotalRuntime/a.getNumbUsers());
+                    ThreadGen.TotalRuntime=0;
            			break;
            		case 6: // Do something for running processes 
            			System.out.println("How many clients do you want to generate? ");
            			client = inputNum.nextInt();
            			a.setNumbUsers(client);
            			a.generateRunningProcesses();
-           			System.out.println("Total Turn-around Time:" + ThreadGenerator.TotalRuntime);
-                    System.out.println("Average Turn-around Time:" + ThreadGenerator.TotalRuntime/a.getNumbUsers());
-                    ThreadGenerator.TotalRuntime=0;
+           			System.out.println("Total Turn-around Time:" + ThreadGen.TotalRuntime);
+                    System.out.println("Average Turn-around Time:" + ThreadGen.TotalRuntime/a.getNumbUsers());
+                    ThreadGen.TotalRuntime=0;
            			break;
            		case 7: // Quit client thread
            			System.exit(0);
@@ -111,7 +111,7 @@ public class MultiClient {
 // writer.println(1) contains a request number for a server
 // each method pass request number and reader from a socket
 /*-----------------------------------------------*/
-class ThreadGenerator {
+class ThreadGen {
 	private int numbUsers = 0;
 	private String host;
 	private int port;
@@ -123,7 +123,7 @@ class ThreadGenerator {
 	public static double TotalRuntime;
 
 	
-	public ThreadGenerator (String host, int port) {
+	public ThreadGen (String host, int port) {
 		this.host = host;
 		this.port = port;
 		
@@ -165,7 +165,7 @@ class ThreadGenerator {
 				initializeSocket();
 			}    
             for(int i = 0; i < this.numbUsers; i++) {
-            	Multithread thread = new Multithread();
+            	MultiThreads thread = new MultiThreads();
               	this.writer.println("1");
             	
             	thread.run(1, this.reader);
@@ -183,7 +183,7 @@ class ThreadGenerator {
 			}
             
             for(int i = 0; i < this.numbUsers; i++) {
-            	Multithread thread = new Multithread();
+            	MultiThreads thread = new MultiThreads();
             	this.writer.println("2");
             	thread.run(2, this.reader);
             }
@@ -201,7 +201,7 @@ class ThreadGenerator {
             
             for(int i = 0; i < this.numbUsers; i++) {
             	
-            	Multithread thread = new Multithread();
+            	MultiThreads thread = new MultiThreads();
             	this.writer.println("3");
             	thread.run(3, this.reader);
             }
@@ -217,7 +217,7 @@ class ThreadGenerator {
 			}
             
             for(int i = 0; i < this.numbUsers; i++) {
-            	Multithread thread = new Multithread();
+            	MultiThreads thread = new MultiThreads();
             	this.writer.println("4");
             	thread.run(4, this.reader);
             }
@@ -234,7 +234,7 @@ class ThreadGenerator {
 			}
             
             for(int i = 0; i < this.numbUsers; i++) {
-            	Multithread thread = new Multithread();
+            	MultiThreads thread = new MultiThreads();
             	this.writer.println("5");
             	thread.run(5, this.reader);
             }
@@ -251,7 +251,7 @@ class ThreadGenerator {
 			}
             
             for(int i = 0; i < this.numbUsers; i++) {
-            	Multithread thread = new Multithread();
+            	MultiThreads thread = new MultiThreads();
             	this.writer.println("6");
             	thread.run(6, this.reader);
             }
@@ -265,7 +265,7 @@ class ThreadGenerator {
 	}
 }
 
-class Multithread extends Thread 
+class MultiThreads extends Thread 
 { 
 	long ThreadRuntime=0;
  public void run(int choice, BufferedReader reader)
@@ -282,7 +282,7 @@ class Multithread extends Thread
   			endtime = System.nanoTime();
   			this.ThreadRuntime=endtime-starttime;
   			System.out.println("Turn-around Time: " + this.ThreadRuntime + "ns");
-  			ThreadGenerator.TotalRuntime+=this.ThreadRuntime;
+  			ThreadGen.TotalRuntime+=this.ThreadRuntime;
   			break;
   		case 2: // Do something for server uptime
   			starttime = System.nanoTime();
@@ -291,7 +291,7 @@ class Multithread extends Thread
   			endtime = System.nanoTime();
 			this.ThreadRuntime=endtime-starttime;
   			System.out.println("Turn-around Time: " + this.ThreadRuntime + "ns");
-  			ThreadGenerator.TotalRuntime+=this.ThreadRuntime;
+  			ThreadGen.TotalRuntime+=this.ThreadRuntime;
   			break;
   		case 3: // Do something for memory use
   			starttime = System.nanoTime();
@@ -304,7 +304,7 @@ class Multithread extends Thread
  			endtime = System.nanoTime();
 			this.ThreadRuntime=endtime-starttime;
  			System.out.println("Turn-around Time: " + this.ThreadRuntime + "ns");
- 			ThreadGenerator.TotalRuntime+=this.ThreadRuntime;
+ 			ThreadGen.TotalRuntime+=this.ThreadRuntime;
  			break;
   		case 4: // Do something for netstat
   			starttime = System.nanoTime();
@@ -318,7 +318,7 @@ class Multithread extends Thread
  			endtime = System.nanoTime();
 			this.ThreadRuntime=endtime-starttime;
  			System.out.println("Turn-around Time: " + this.ThreadRuntime + "ns");
- 			ThreadGenerator.TotalRuntime+=this.ThreadRuntime;
+ 			ThreadGen.TotalRuntime+=this.ThreadRuntime;
  			break;
   		case 5: // Do something for current users
   			starttime = System.nanoTime();
@@ -327,7 +327,7 @@ class Multithread extends Thread
  			endtime = System.nanoTime();
 			this.ThreadRuntime=endtime-starttime;
  			System.out.println("Turn-around Time: " + this.ThreadRuntime + "ns");
- 			ThreadGenerator.TotalRuntime+=this.ThreadRuntime;
+ 			ThreadGen.TotalRuntime+=this.ThreadRuntime;
  			break;
   		case 6: // Do something for running processes
   			starttime = System.nanoTime();
@@ -341,7 +341,7 @@ class Multithread extends Thread
  			endtime = System.nanoTime();
 			this.ThreadRuntime=endtime-starttime;
  			System.out.println("Turn-around Time: " + this.ThreadRuntime + "ns");
- 			ThreadGenerator.TotalRuntime+=this.ThreadRuntime;
+ 			ThreadGen.TotalRuntime+=this.ThreadRuntime;
  			break;
   		case 7:
   			// Quit client thread
