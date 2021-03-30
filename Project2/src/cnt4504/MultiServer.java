@@ -23,6 +23,8 @@ public class MultiServer {
 		    	Socket socket = serverSocket.accept();
 		    	System.out.println("Client connected...");
 		    	
+			new ServerThread(socket).start();
+			    
 		    	// read data from client
 		    	InputStream input = socket.getInputStream();
 		    	BufferedReader reader = new BufferedReader(new InputStreamReader(input));
